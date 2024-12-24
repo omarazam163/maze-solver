@@ -29,25 +29,24 @@ class node:
         self.path=[]
 def get_nighbors(point, maze):
     neighbors = []
-    x = point[0] 
-    y = point[1]
-    max_col = len(maze)
-    max_row = len(maze[0])
-    if(x+1<max_row and y<max_col):
-        if(check_zero(maze[x+1][y])):
-            neighbors.append((x+1,y))
-    if(x<max_row and y+1<max_col):
-        if(check_zero(maze[x][y+1])):
-            neighbors.append((x,y+1))
-    if(x-1>=0 and y<max_col):
-        if(check_zero(maze[x-1][y])):
-            neighbors.append((x-1,y))
-    if(x<max_row and y-1>=0):
-        if(check_zero(maze[x][y-1])):
-            neighbors.append((x,y-1))
+    i = point[0] 
+    j = point[1]
+    max_col = len(maze[0])
+    max_row = len(maze)
+    if(i<max_row and j+1<max_col):  # right 
+        if(check_zero(maze[i][j+1])):
+            neighbors.append((i,j+1))
+    if(i+1<max_row and j<max_col): #down
+        if(check_zero(maze[i+1][j])):
+            neighbors.append((i+1,j))
+    if(i>=0 and j-1>=0):  #left
+        if(check_zero(maze[i][j-1])):
+            neighbors.append((i,j-1))
+    if(i-1>=0 and j>=0): #up
+        if(check_zero(maze[i-1][j])):
+            neighbors.append((i-1,j))
     return neighbors
     
-        
         
 def create_grph(maze):
     graph = {}
@@ -58,23 +57,22 @@ def create_grph(maze):
     return graph
 
 
-def dfs(start, end, graph:dict):
+def dfs(start, end, graph: dict):
     stack = [start]
-    path = []
     visited = set()
-    while len(stack)>0:
+    start.path = [] 
+    while len(stack) > 0:
         current_node = stack.pop()
-        if(current_node.x==end.x and current_node.y==end.y):
-            return path+[(current_node.x,current_node.y)]
-        else:
-            path=current_node.path+[(current_node.x,current_node.y)]
-            neighbors = list(map(lambda nn:node(nn[0],nn[1]),reversed(graph.get((current_node.x,current_node.y),[]))))
-            for neighbor in neighbors:           
-                 if (neighbor.x, neighbor.y) not in visited:
-                     visited.add((neighbor.x, neighbor.y))
-                     neighbor.path = path.copy()
-                     stack.append(neighbor) 
-    return None    
+        if (current_node.x, current_node.y) == (end.x, end.y):
+            return current_node.path + [(current_node.x, current_node.y)]
+        if (current_node.x, current_node.y) not in visited:
+            visited.add((current_node.x, current_node.y))
+            neighbors = list(map(lambda nn: node(nn[0], nn[1]), reversed(graph.get((current_node.x, current_node.y), []))))
+            for neighbor in neighbors:
+                if (neighbor.x, neighbor.y) not in visited and neighbor not in stack:
+                    neighbor.path = current_node.path + [(current_node.x, current_node.y)]
+                    stack.append(neighbor)
+    return None
 
 
 def bfs(start, end, graph: dict):
