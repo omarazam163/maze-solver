@@ -48,6 +48,7 @@ def draw_path(path):
     for position in path:
         x, y = position[1], position[0]
         pygame.draw.rect(screen, GREEN, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE))
+        pygame.draw.rect(screen, BLUE, (x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE), 1)
 
 def main():
     global start, end

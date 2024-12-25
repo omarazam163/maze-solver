@@ -33,18 +33,18 @@ def get_nighbors(point, maze):
     j = point[1]
     max_col = len(maze[0])
     max_row = len(maze)
-    if(i<max_row and j+1<max_col):  # right 
-        if(check_zero(maze[i][j+1])):
-            neighbors.append((i,j+1))
-    if(i+1<max_row and j<max_col): #down
-        if(check_zero(maze[i+1][j])):
-            neighbors.append((i+1,j))
-    if(i>=0 and j-1>=0):  #left
-        if(check_zero(maze[i][j-1])):
-            neighbors.append((i,j-1))
     if(i-1>=0 and j>=0): #up
         if(check_zero(maze[i-1][j])):
             neighbors.append((i-1,j))
+    if(i>=0 and j-1>=0):  #left
+        if(check_zero(maze[i][j-1])):
+            neighbors.append((i,j-1))
+    if(i+1<max_row and j<max_col): #down
+        if(check_zero(maze[i+1][j])):
+            neighbors.append((i+1,j))
+    if(i<max_row and j+1<max_col):  # right 
+        if(check_zero(maze[i][j+1])):
+            neighbors.append((i,j+1))
     return neighbors
     
         
